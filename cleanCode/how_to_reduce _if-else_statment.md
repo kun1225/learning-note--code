@@ -130,7 +130,7 @@ const getDiscount = (memberLevel) => {
 }
 ```
 
-##　結尾
+## 結尾
 這裡提供幾種可以代替`if-else`的方法  
 我覺得在適合的情況用出適合的寫法才是最好的  
 有時候 `if-else` 就是比較直觀　　

@@ -9,3 +9,5 @@
 3. 自己做過一次筆記印象會比較深
 
 不過注意，這裡不是標準答案，大部分都是網路上參考加自身思考出來的，所以僅共參考
+
+1. [如何有效減少 if else](https://github.com/thisWeb1225/learning-note-code-/issues/1)
