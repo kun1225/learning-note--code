@@ -38,7 +38,7 @@ console.log('3');
 ```
 在執行這段程式碼時，call stack 會先執行 '1'，接著執行 `setTimeout`，但是並不會馬上執行，而是先放到`工作佇列(task queue)`內，等到所有 call stack 中的內容被清空才會執行。
 
-##　event loop
+## event loop
 為了理解JS 之所以能透過非同步的方式，看起來一次處理很多事情，我們需要近一步了解 event loop  
 
 我們之所以可以在瀏覽器中同時處理很多事情，是因為瀏覽器是多線程，像是 DOM、ajax、setTimeout...等都是瀏覽器提供的 api，他們都是在瀏覽器上運行的
