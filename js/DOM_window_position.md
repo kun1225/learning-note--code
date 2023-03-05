@@ -90,5 +90,13 @@ const scrollTop = window.scrollY || window.pageYOffset;
 不過我們可以透過下面這樣取得絕對位置   
 
 ```js
+const element = document.getElementById('my-element');
+const rect = element.getBoundingClientRect();
+const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+const absoluteTop = rect.top + scrollTop;
+const absoluteLeft = rect.left + scrollLeft;
 
+console.log(absoluteTop); // 元素在整個網頁文檔中的上邊緣位置
+console.log(absoluteLeft); // 元素在整個網頁文檔中的左邊緣位置
 ```
