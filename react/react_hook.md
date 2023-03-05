@@ -1,9 +1,12 @@
 # React Hook
 ## 前言
 自從 react 16.8 更新 hook 後，functional component 開始崛起  
+
+雖然官方一直提倡 functional component，不過當我們要使用到 state 時，還是要將 functional component 轉換成 class component  
+
 在更新 hook 之前，functional component 不支持狀態、生命週期等功能  
 
-簡單說，hook 就是讓 functional component 也能使用 class component 的功能
+簡單說，hook 就是讓 functional component 也能使用 class component 的功能  
 
 ## 目錄
 1. useState
@@ -62,6 +65,10 @@ useEffect(() => {
   }
 }, [依賴的參數：空陣列表示不依賴])
 ```
+* effect 在 render 後按照前後順序執行
+* effect 在沒有任何依賴時，每次 re-render 都會執行
+* effect 內部執行是異性的
+
 # useCallback()
 防止因為組件重新渲染，導致某些方法備重新創建，引響效能
 ```js
@@ -150,6 +157,60 @@ function ThemedButton() {
 }
 ```
 # useReducer
+在某些場景，useReducer 會比 useState 更適用，當 state 邏輯較複雜時，就可以使用 useReducer 代替  
+
 ```js
-const [state, dispatch] = useReducer(reducer, initialArg, init?)
+const [state, dispatch] = useReducer(reducer, initialState, init?)
+```
+* reducer 能通過設定好的 action 將 state 從一個過程轉換成另一個過程的純函數
+* initialState 初始化的 state
+* init 是初始化 state 的函數，非必要參數
+* dispatch 用來觸發 action
+
+數據流會是：dispatch(action) => reducer 更新 state => 返回更新後得 state
+
+以下面的例子，假設我們有一個計數器和增加減少數字的兩個按鈕  
+如果要用 useReduce 就這樣
+
+1. 宣告 initalState
+2. 定義 reducer 函數，其中用 action.type 來判斷要增加數字還是減少數字，state 會記錄原本的 count，所以要記得返回新的 count
+3. 函數組件中宣告 useReducer
+4. 使用時用 dispatch({type: ...})
+  
+```js
+// 1
+const initialState = { count :0 };
+// 2
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.conut - 1};
+    default: 
+      throw new Error()
+  }
+}
+
+function Counter() {
+  // 3
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const addCount = () => {
+    // 4
+    dispatch({type: 'decrement'});
+  };
+
+  const decreseCount = () => {
+    dispatch({type: 'decrement'})
+  }
+
+  return (
+    <>
+      Count: {state.count};
+      <button onClick={addCount}> + </button>
+      <button onClick={decreaseCount}> - </button>
+    </>
+  )
+}
 ```
