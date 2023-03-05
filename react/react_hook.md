@@ -67,9 +67,9 @@ useEffect(() => {
 ```
 * effect 在 render 後按照前後順序執行
 * effect 在沒有任何依賴時，每次 re-render 都會執行
-* effect 內部執行是異性的
 
 # useCallback()
+每次父組件重新渲染時，子組件也會重新渲染，如果子組件接收到的是一個新的函數或物件，他也會重新渲染，他也會重新渲染，即使這個函數或物件的值沒有改變，就可以用 `useCallback()` 可以避免不必要的重新渲染  
 防止因為組件重新渲染，導致某些方法備重新創建，引響效能
 ```js
 const handleClick = useCallback(() => {
