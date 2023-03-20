@@ -12,11 +12,11 @@ const user1 = {
 		street: "123 Main St",
 	},
 	orders: {
-      "items": [
+      items: [
           "Shirt",
           "Pants"
       ],
-      "total": 50.0
+      total: 50.0
     },
 }
 ```
@@ -25,9 +25,11 @@ const user1 = {
 
 ```jsx
 function showUserInfo(user) {
-	console.log(`使用者${user.name}花了${user.orders.total}元，購買${user.orders.items}`)
+	console.log(`
+  使用者${user.name}花了${user.orders.total}元，
+  購買${user.orders.items}
+  `)
 }
-
 showUserInfo(user1)
 // 使用者thisWeb花了50元，購買Shirt,Pants
 ```
@@ -57,7 +59,7 @@ showUserInfo(user1)
 好處是變量的名字簡短了很多，也更容易閱讀，那到底要怎麼使用呢？
 
 ### 給物件解構
-
+最常見的用法是將物件解構
 ```jsx
 const user = {
 	name: 'thisWeb',
@@ -185,12 +187,11 @@ console.log(name, age, firstHobby);
 // thisWeb 18 擼貓
 ```
 
-### 解構的幾種用法
+### 解構的五種用法
 
 除了一開始將物件的屬性取值出來的用法外，還有幾種好用的解構方法
 
 **交換變數**
-
 利用陣列解構的方法可以很方便的交換變數
 
 ```jsx
@@ -200,75 +201,119 @@ let num1 = 100; let num2 = 200;
 console.log(num1, num2); // 100, 200
 ```
 
-**搭配剩餘運算子做複製和切割**
 
+**搭配剩餘運算子做複製、切割、組合**
 剩餘運算子可以將物件或是陣列的值展開
 
 ```jsx
 const hobbies = ['擼貓', '打程式', '打籃球'];
-// 複製
+// 複製陣列
 const [...copyHobbies] = hobbies;
 
-// 將陣列分成兩堆
-const [firstHobby, ...remainHobbies] = hobbies;
-console.log(firstHobby, remainHobbies); // 擼貓, [打程式, 打籃球]
-
-const user = {
+const user1 = {
 	name: 'thisWeb',
 	age: 18,
 }
-// 複製
+// 複製物件
 const {...copyUser} = user
+```
 
-// 添加屬性
+稍加變化可以切割陣列或物件
+```jsx
+const [firstHobby, ...remainHobbies] = hobbies;
+console.log(firstHobby, remainHobbies); // 擼貓, [打程式, 打籃球]
+
+const {name, ...remainVal} = user;
+console.log(name, remainVal)
+// thisWeb, {name: 18}
+```
+
+當然也可以把兩個陣列或物件組合在一起
+```jsx
+const arr1 = [1, 2], arr2 = [3];
+const arr3 = [...arr1, ...arr2] // [1, 2, 3]
+
 const userWithHobbies = {...user, hobbies}
-console.log(userWithHobbies)
 // name: 'thisWeb', age: 18, hobbies:[...]
 ```
 
-**動態屬性解構**
 
+**動態屬性解構**
+我們也可以依據傳入的參數來取得特定的值
 ```jsx
-const getStudentInfo = key => {
-  const {[key]: value} = student;
-  return value;
+const getUserInfo = (key) => {
+  const {[key]: value} = user;
+  console.log(value);
 }
 
-getStudentInfo('name'); 
-getStudentInfo('age');
+getUserInfo('name'); // thisWeb  
+getUserInfo('age'); // 18
 ```
+不過要注意傳入的值要是字串
+
 
 **函數解構**
-
 可以在函數的參數中解構
 
 ```jsx
-function sum([a, b]) {
-    console.log(a + b);
+const userArr = ['thisWeb', 18];
+const userObj = {
+  name: 'thisWeb',
+  age: 18,
 }
-sum([1, 2]);       // 3
+function arrGetUser([name, age]) {
+  console.log(name, age);
+}
+arrGetUser(userArr); // thisWeb 18
 
-function show({x, y}) {
-    console.log(x, y);
+function objGetUser({name, age}) {
+  console.log(name, age)
 }
-show({x: 1, y: 2}); // 1 2
+objGetUser(userObj); // thisWeb 18
 
 ```
 
-也可以再返回值解構
-
+若返回的是物件，也可以在返回值時解構
 ```jsx
 function getStudentInfo() {
     return {
-        name: 'ZhangSan',
+        name: 'thisWeb',
         age: 18,
         scores: {
             math: 19,
-            english: 85,
-            chinese: 100
+            english: 28,
+            chinese: 0
         }
     };
 }
 const { name, scores: {math, english, chinese} } = getStudentInfo();
 console.log(name, math, english, chinese);
+// thisWeb 19 28 0
+```
+
+**迴圈中的解構**
+在使用 for...of 時也可使用解構
+
+```jsx
+const users = [
+    {
+        name: 'Rose',
+        age: 18
+    },
+    {
+        name: 'Jason',
+        age: 20
+    },
+    {
+        name: 'Jack',
+        age: 30
+    }
+];
+
+for(let {name, age} of users){
+    console.log(name, age);
+}
+// Rose 18
+// Jason 20
+// Jack 30
 ```
