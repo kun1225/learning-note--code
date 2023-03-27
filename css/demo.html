@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 300vh;
+        background: #23232d;
+      }
+
+      div {
+        font-family: 'poppins';
+        font-weight: 500;
+        letter-spacing: 1px;
+        display: grid;
+        margin: 128px;
+        color: #fff;
+        text-transform: capitalize;
+        width: 320px;
+        justify-content: center;
+      }
+
+      div > * {
+        padding: 16px;
+      }
+
+      a {
+        color: lightblue;
+      }
+
+      /* div p:first-child {
+        color: lightblue;
+      }
+
+      div p:last-child {
+        color: lightgreen;
+      }
+
+      div > * {
+        border-bottom: 1px solid gray;
+      }
+
+      div p:last-child {
+        border: none;
+      } */
+
+      /* div p:nth-child(4) {
+        color: lightgreen;
+      } */
+
+      /* div p:nth-child(3n) {
+        color: lightgreen;
+      }
+
+      div p:only-child {
+        color: orange;
+      } */
+
+      /* div :not(p) {
+        color: lightgreen;
+      } */
+
+      div p:not(.p3) {
+        color: lightgreen;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p>first paragraph</p>
+      <p>second paragraph</p>
+      <p class="p3">third paragraph</p>
+      <p>fourth paragraph</p>
+      <p>fifth paragraph</p>
+      <p>sixth paragraph</p>
+    </div>
+
+    <div>
+      <p>first paragraph</p>
+    </div>
+
+    <div>
+      <p>first paragraph</p>
+      <p>second paragraph</p>
+      <a href="#">first link</a>
+      <p>third paragraph</p>
+      <p>fourth paragraph</p>
+      <a href="#">second link</a>
+      <p>fifth paragraph</p>
+    </div>
+  </body>
+</html>

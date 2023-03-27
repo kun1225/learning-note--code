@@ -1,7 +1,7 @@
 # 自己動手寫 7 個好用的 JS 函數
 
 ## 1. console.log()
-相信大家寫 JS 時很常使用 console.log() 來檢查自己寫的程式，我們可以利用解構附值來更簡短的使用
+相信大家寫 JS 時很常使用 console.log() 來檢查自己寫的程式，我們可以利用解構附值，將 `console` 物件中的 `log` 解構出來並咐值給 `log` 變量，以此來更簡短的使用
 
 ```jsx
 const {log} = console;
@@ -11,16 +11,32 @@ log('Hello World!');
 console.log('Hello World');
 ```
 
+但是在團隊開發中，為了統一程式碼風格和提高可讀性，要在專案中規定使用一種風格，比如統一使用 `console.log` 或者解構賦值的方式來使用 `log`，而不是兩種方式混用會比較好。
 
-## 2. random()
+
+## 2. randomInt()
 Math.random() 可以隨機產生 0 ~ 1 的數字，如果我們想要獲得 0 ~ 10 的數字就必須要 Math.random() * 10 來使用，所以我們可以把 Math.random() 封裝起來讓他更易使用
 
 ```jsx
-const random = (min, max) => {
+const randomInt = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-random (3, 10) // 3 ~ 10
+randomInt (13, 30) // 13 ~ 30
+```
+
+若希望傳入浮點數和 n 位數，並隨機回傳介於兩者之間的 n 位浮點數，可以這樣來更改:
+
+```js
+const randomFloat = (min, max, n) => {
+  const range = max - min;
+  const randomValue = Math.random() * range + min;
+  const factor = Math.pow(10, n);
+  return Math.round(randomValue * factor) / factor;
+}
+
+console.log(randomFloat(1.2, 4.5, 2));
+ // 可能的結果是 2.36、3.81、1.93 等等
 ```
 
 
@@ -33,6 +49,13 @@ const setTimes = (func, n) => {
 		func();
 	})
 }
+
+setTimes(() => {
+  console.log('hello')
+}, 3)
+// hello
+// hello
+// hello
 ```
 
 解釋：  
@@ -46,6 +69,25 @@ Array(5) // [,,,,]
 
 ```jsx
 Array.from(Array(5)) // [undefined, undefined, ...] 
+```
+
+後來我想到一個語意更好懂的寫法  
+```js
+Array(n).fill(null).forEach(() => {
+    func();
+  })
+```
+加上為了避免第一個參數不是函數，我們可以加入類型檢查，優化成下面這樣    
+
+```js
+const setTimes = (func, n) => {
+	if (typeof func !== 'function') {
+		throw new Error('The first argument must be a function!');
+	}
+  Array(n).fill(null).forEach(() => {
+    func();
+  })
+}
 ```
 
 
@@ -99,9 +141,9 @@ const validateEmail = (email) => {
   return regex.test(email);
 };
 
-validateEmail("youremail@org.com"); // true
+validateEmail("youremail@gmail.com"); // true
 validateEmail("youremail@com"); // false
-validateEmail("youremail.org@com"); // false
+validateEmail("youremail.gmail@com"); // false
 ```
 
 * `/^\S+@\S+\.\S+$/`: 
@@ -149,11 +191,27 @@ const storage = {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : defaultValue;
   },
-  set: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
+
+  set: (key, value) => 
+    localStorage.setItem(key, JSON.stringify(value)),
+
   remove: (key) => localStorage.removeItem(key),
+
   clear: () => localStorage.clear(),
 };
 
-storage.set("motto", "Eat, Sleep, Code, Repeat");
-storage.get("motto");
+storage.set("name", "thisWeb");
+storage.get("name");
+```
+
+我們還進一步優化這個封裝，例如：
+
+* 添加容量限制的檢查：在將數據存儲到 localStorage 之前，先檢查已使用的存儲空間是否超過了容量限制。如果超過了限制，可以考慮刪除一些舊數據或者提示用戶清理數據。
+* 添加事件監聽器：可以添加一個事件監聽器，當 localStorage 中的數據發生改變時，自動通知應用程序，以便更新相應的內容。
+* 改進錯誤處理：如果 localStorage 存儲失敗或者讀取失敗，應該儘可能地捕獲錯誤並提供有用的錯誤信息，以便開發人員快速定位問題。
+* 添加過期時間機制：可以在存儲數據時添加一個過期時間，當超過過期時間時，自動刪除數據或者返回默認值。
+* 添加序列化和反序列化選項：可以添加對不同數據類型的支持，例如支持存儲二進制數據、日期對象等等。
+
+```js
+
 ```

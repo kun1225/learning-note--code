@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>intersection OberseverDemo</title>
+
+  
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+
+    body {
+      position: relative;
+      height: 500vh;
+      background: #23232b;
+      display: grid;
+      place-content: center;
+    }
+
+    #target {
+      width: 20px;
+      height: 200px;
+      background-color: #e3e3e3;     
+    }
+
+    #target2 {
+      width: 30px;
+      height: 200px;
+      background-color: lightblue;     
+      margin-top: 300px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: lightgreen;
+    }
+  </style>
+</head>
+<body>
+  <div id="target"></div>
+  <div id="target2"></div>
+
+  <div class="footer"></div>
+
+  <script>
+    const target = document.querySelector('#target')    
+    const target2 = document.querySelector('#target2')    
+    const footer = document.querySelector('.footer')    
+
+    let count = 0
+
+    // const callback = () => {
+    //   let count = 0;
+    //   return () => {
+    //     console.log('進入畫面', ++count)
+    //   }
+    // }
+
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        window.scrollTo({
+          top: 0,
+        })
+        
+      }
+    }
+
+    const options = {
+      root: null,
+      threshold: 1,
+    }
+    const observer = new IntersectionObserver(callback, options)
+    observer.observe(footer)
+
+  </script>
+</body>
+</html>
