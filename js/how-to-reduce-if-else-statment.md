@@ -1,8 +1,8 @@
 # 減少 if else 的五種方法
 
 ## 前言
-每次寫程式碼最討厭看到一大串的 if else，所以就想記錄如何減少 if else 的使用  
-不過並不是說 if else 不好，而是可以根據情況去選擇相應的寫法
+每次寫程式碼最討厭看到一大串的 if else，所以就想記錄如何減少 if else 的使用，   
+不過並不是說 if else 不好，而是可以根據情況去選擇相應的寫法。
 
 ## 1. JS 的 `||(or)` 和 `&& (and)` 運算子
 JS 裡的
@@ -11,15 +11,16 @@ JS 裡的
 於是我們可以把下面這個
 ```js
 let c;
+
 if(a) {
   c = a;
 } else {
-  a = b
+  a = b;
 }
-```
-改寫成
-```js
-let c = a || b
+
+// 改寫成
+
+let c = a || b;
 ```
 而這個
 ```js
@@ -29,14 +30,14 @@ if(!a) {
 } else {
   c = b;
 }
-```
-可以寫成
-```js
+
+// 改寫成
+
 let c = a && b;
 ```
 
 ## 2. 三元運算子
-我個人很喜歡三元運算子，但只推薦一層的三元運算子，之前寫 codewar 的題目，看過有人用了超多層，雖然他一行寫完答案，但超難理解
+我個人很喜歡三元運算子，但只推薦一層的三元運算子，之前寫 codewar 的題目，看過有人用了超多層，雖然他一行寫完答案，但超難理解。
 
 三元運算子的寫法為
 1. 問號前面放判斷
@@ -131,29 +132,27 @@ const getDiscount = (memberLevel) => {
 ```
 
 ## 5. includes()
-在以下這種情況：
+當同時判斷多個條件時，就可以利用陣列的 `includes()` 來減少 `if` 的長度，例如：
 ```js
 let type = 'a';
+
 if ( type === 'a' || type === 'b' || type === 'c') {
-  // ...
+  console.log('Success');
 }
 
-// 或
+// 改寫成
+if (['a', 'b', 'c'].includes(type)) {
+  console.log('Success');
+}
+
 
 if ( type !== 'a' && type !== 'b' && type !== 'c') {
-  // ...
-}
-```
-可以用 `includes()` 來縮減：
-```js
-if (['a', 'b', 'c'].includes(type)) {
-  // ...
+  console.log('Success');
 }
 
-// 或
-
+// 改寫成
 if (!['a', 'b', 'c'].includes(type)) {
-  // ...
+  console.log('Success');
 }
 ```
 
