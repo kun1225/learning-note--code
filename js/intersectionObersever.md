@@ -1,6 +1,6 @@
 # Intersection Observer 交叉觀察器
 
-前陣子做網站時遇到一個需求，當使用者滑到底部時，要獲取新的資料，就是所謂的懶加載 lazy 
+前陣子做網站時遇到一個需求，當使用者滑到底部時，要獲取新的資料，就是所謂的懶加載 lazy loading
 
 最一開始的想法是用 scroll 事件處理，判斷最後一個元素是否進入畫面，當進入畫面後，執行獲取資料的函數，不過這樣有個缺點，每次滾動時都會重複執行判斷，計算量大造成性能問題。
 
@@ -31,7 +31,7 @@ const callback = () => {
 let options = {
   root: document.querySelector("#viewarea"),
   rootMargin: "0px",
-  threshold: 1.0,
+  threshold: 0,
 };
 
 let observer = new IntersectionObserver(callback, options);
@@ -62,18 +62,18 @@ observer.observe(target2);
 <div id="target"></div>
 ```
 ```js
-const target = document.querySelector('#target')    
+const target = document.querySelector('#target')  ;  
 
-let count = 0
+let count = 0;
 const callback = () => {
-  console.log('進入畫面', ++count);
+  console.log('觸發函數', ++count);
 }
 
 const options = {
-  threshold: 0.5
-}
-const observer = new IntersectionObserver(callback, options)
-observer.observe(target)
+  threshold: 0.5,
+};
+const observer = new IntersectionObserver(callback, options);
+observer.observe(target);
 ```
 ```css
 * {
@@ -114,19 +114,20 @@ const callback = (entries, observer) => {
 有了 `isIntersecting` 這個屬性就可避免進入/離開畫面時觸發兩次函數的問題了，我們來改寫一下上面的例子
 
 ```js
-const target = document.querySelector('#target')    
+const target = document.querySelector('#target');   
 
+let count = 0;
 const callback = (entries) => {
   if (entries[0].isIntersecting) {
-    console.log('進入畫面')
+    console.log('進入畫面', count++);
   }
 }
 
 const options = {
-  threshold: 0.5
-}
-const observer = new IntersectionObserver(callback, options)
-observer.observe(target)
+  threshold: 0.5,
+};
+const observer = new IntersectionObserver(callback, options);
+observer.observe(target);
 ```
 
 (放上 gif)
@@ -157,12 +158,19 @@ observer.observe(target)
 const observer = new IntersectionObserver((entries, observer) => { 
     entries.forEach(entry => {
         if (entry.isIntersecting) { 
-            let img = entry.target;
-            img.setAttribute('src', img.getAttribute('data-src')) 
+            // 獲取目標元素本身
+            let img = entry.target; 
+
+            // 設定圖片路徑
+            img.setAttribute('src', `./images/img${i}.png`) 
+
+            // 設定完圖片路徑後，取消觀察
             observer.unobserve(img); 
         } 
     }) 
 }, {}); 
+
+// 觀察所有 img 元素
 Array.from(document.querySelectorAll('img')).forEach((item) => {
   observer.observe(item)
 });
@@ -170,13 +178,12 @@ Array.from(document.querySelectorAll('img')).forEach((item) => {
 
 ### 2. 自動回到頂部 / 無限滾動
 ```js
-const observer = new IntersectionObserver((entries, observer) => { 
-    entries.forEach(entry => {
-        if (entry.intersectionRatio <= 0) return;
-        window.scrollTo({
-          top: 0,
-        })
-    }) 
+const observer = 
+  new IntersectionObserver((entries, observer) => {     
+    if (entrys[0].intersectionRatio <= 0) return;
+    window.scrollTo({
+      top: 0,
+    })
 });
 
 observer.observe(
