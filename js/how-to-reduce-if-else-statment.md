@@ -1,39 +1,48 @@
 # 減少 if else 的五種方法
 
 ## 前言
-每次寫程式碼最討厭看到一大串的 if else，所以就想記錄如何減少 if else 的使用，   
-不過並不是說 if else 不好，而是可以根據情況去選擇相應的寫法。
+有時候程式碼中有太多 if-else 語法
+會讓程式碼變得難以閱讀
+
+在這裡分享五種
+減少 if-else 的方法
+讓程式碼變的更簡潔優雅  
+
 
 ## 1. JS 的 `||(or)` 和 `&& (and)` 運算子
 JS 裡的
-* `||` 返回第一個不為空的值，若都為空則返回最後一個值
-* `&&` 返回第一個為空的值，若都不為空則返回最後一個值
+* `||` 返回第一個不為空的值，若都為空則返回最後一個值  
+* `&&` 返回第一個為空的值，若都不為空則返回最後一個值  
 於是我們可以把下面這個
 ```js
-let c;
+let user = {};
 
-if(a) {
-  c = a;
+if(name) {
+  user.name = name;
 } else {
-  a = b;
+  user.name = 'unknow';
 }
 
 // 改寫成
 
-let c = a || b;
+let user.name = name || 'unknow';
 ```
-而這個
+and 更常用在簡化條件判斷
 ```js
-let c;
-if(!a) {
-  c = a;
-} else {
-  c = b;
+let user = {};
+if(name) {
+  if (gender) {
+    user.name = name;
+    user.gender = gender;
+  }
 }
 
 // 改寫成
 
-let c = a && b;
+if (name && gender) {
+  user.name == name;
+  user.gender == gender;
+}
 ```
 
 ## 2. 三元運算子
@@ -43,17 +52,24 @@ let c = a && b;
 1. 問號前面放判斷
 2. 問號後面前半部分返回 `true` 的情況；後半部分返回 `false` 的情況
 ```JS
-let result = (isSuccess) {
-  if(isSuccess) {
-    return 'Yes' 
-  } else {
-    return 'No'
-  }
+let result;
+
+if(isSuccess) {
+  result = 'Yes' 
+} else {
+  result = 'No'
 }
 // 改寫成
 
 let result = isSuccess ? 'Yes' : 'No';
 ```
+判斷的地方也可以放比較運算符，例如大於或小於，也可以放等於或不等於:
+```js
+// 若 num1 大於 num2，則返回 num1，若 num2 較大，則返回 num2
+let bigNumber = num1 > num2 ? num1 : num2;
+```
+總之三元運算符是非常好用的一個語法。
+
 ## 3. switch case
 邏輯運算子和三元運算子在簡單的情況下都蠻好用的，但如果情況比較複雜的話就可以考慮用 `switch`
 ```js
@@ -157,9 +173,7 @@ if (!['a', 'b', 'c'].includes(type)) {
 ```
 
 ## 結尾
-這裡提供幾種可以代替`if-else`的方法  
-我覺得在適合的情況用出適合的寫法才是最好的  
-有時候 `if-else` 就是比較直觀　　
+這裡提供幾種可以代替`if-else`的方法，不過並不是說 if else 不好，我覺得在適合的情況用出適合的寫法才是最好的，有時候 `if-else` 就是比較直觀。　　
 
 ### 後記
 後來在網路上看到很多網友說公司是看程式碼的多寡判斷有沒有做事的，所以瘋狂寫 `if-else`
