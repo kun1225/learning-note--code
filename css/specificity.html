@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+
+.red p{
+  color: red;
+}
+
+.red[class="red"] {
+  color: green;
+}
+
+.myp.myp {
+  color: blue;
+}
+
+</style>
+  </head>
+  <body>
+    <div class="blue">
+      <div class="red">
+        <p class="myp">一段文字</p>
+      </div>
+    </div>
+
+    <div class="red">
+      <div class="blue">
+        <p>一段文字</p>
+      </div>
+    </div>
+  </body>
+</html>
