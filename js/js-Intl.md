@@ -1,4 +1,4 @@
-# 如何規範每個地區的時間和貨幣單位？JS Intl API
+# 如何快速將日期轉換成中文格式？利用 JS Intl API 轉換貨幣、日期、時間格式
 
 Intl API 是 JS 內建的一個國際化 API，他提供許多物件、方法來處理不同地區和語言的文法、日期、貨幣格式，讓你在遇到網站需要國際化時，遇到的格式問題。
 
@@ -16,7 +16,7 @@ Intl
 `Intl.Collator` 用來比較和排序字串，他接受兩個參數，像下面這樣:
 
 ```js
-const intl = Intl.Collator(locales, { options })
+const intl = new Intl.Collator(locales, { options })
 ```
 
 1. locales: 這個參數可以指定用哪個語言的語法來排序，是根據 BCP 47 來決定的，比如台灣是 zh-TW
@@ -42,8 +42,8 @@ names.sort(collator.compare);
 而 `collator.compare` 是對傳入的兩個參數做比較，所以可以搭配陣列的 `sort()` 做使用:
 
 ```js
-console.log(new Intl.Collator().compare("a", "c")); // -1
-console.log(new Intl.Collator().compare("c", "a")); // 1
+new Intl.Collator().compare("a", "c"); // -1
+new Intl.Collator().compare("c", "a"); // 1
 ```
 
 除了依照注音排序，也可以像這樣對中文的數字做排序:
@@ -75,7 +75,8 @@ const options = {
 };
 const formatter = new Intl.DateTimeFormat('zh-TW', options);
 const formattedDate = formatter.format(date);
-console.log(formattedDate); // 2023年4月28日 星期五 晚上9:56:08
+console.log(formattedDate);
+// 2023年4月28日 星期五 晚上9:56:08
 ```
 
 - dateStyle: 決定日期的表示方式
@@ -157,19 +158,19 @@ console.log(formatter.format(price)); // 1,234.56 新台幣
 
 ```jsx
 new Intl.NumberFormat().format(12345.6789);
-// 结果是："12,345.679"
+// 12,345.6789
 
 new Intl.NumberFormat('en-US', {
     minimumIntegerDigits: 2
-}).format(8); // 结果是："08"
+}).format(8); // 08
 
 new Intl.NumberFormat('en-US', {
   style: 'percent',
   minimumFractionDigits: 2,
 }).format(0.75); // 75.00%
 
-new Intl.NumberFormat('zh-Hans-TW-u-nu-hanidec').format(123456)
-// '一二三,四五六'
+new Intl.NumberFormat('zh-Hans-TW-u-nu-hanidec')
+  .format(123456) // 一二三,四五六
 ```
 
 ## 5. Intl.RelativeTimeFormat
