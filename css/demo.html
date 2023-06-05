@@ -13,90 +13,103 @@
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        font-family: 'poppins';
+      }
+
       body {
         height: 300vh;
-        background: #23232d;
+        background: #23232b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-block: 360px;
       }
 
-      div {
-        font-family: 'poppins';
-        font-weight: 500;
-        letter-spacing: 1px;
-        display: grid;
-        margin: 128px;
+      h3,
+      p {
         color: #fff;
-        text-transform: capitalize;
-        width: 320px;
-        justify-content: center;
       }
 
-      div > * {
-        padding: 16px;
+      .outer {
+        width: 80%;
+        height: 360px;
+        border: 2px solid #fff;
+        animation: scale 5s linear alternate infinite;
+
+        position: relative;
       }
 
-      a {
-        color: lightblue;
+      @keyframes scale {
+        to {
+          width: max(30%, 360px);
+        }
       }
 
-      /* div p:first-child {
-        color: lightblue;
+      .inner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: grid;
+        place-content: center;
+        background: #2e81e0;
+        height: 240px;
       }
 
-      div p:last-child {
-        color: lightgreen;
-      }
-
-      div > * {
-        border-bottom: 1px solid gray;
-      }
-
-      div p:last-child {
-        border: none;
+      /* .inner {
+        width: max(50%, 240px);
       } */
 
-      /* div p:nth-child(4) {
-        color: lightgreen;
+      /* .inner {
+        width: 50%;
+        min-width: 240px;
       } */
 
-      /* div p:nth-child(3n) {
-        color: lightgreen;
-      }
-
-      div p:only-child {
-        color: orange;
+      /* .inner {
+        --padding: 16px;
+        width: max(240px - var(--padding) * 2, 50%);
       } */
 
-      /* div :not(p) {
-        color: lightgreen;
+      /* .inner {
+        width: min(50%, 360px);
       } */
-
-      div p:not(.p3) {
-        color: lightgreen;
-      }
+      
+      .inner {
+        width: clamp(240px, 50%, 360px);
+      } 
     </style>
   </head>
   <body>
-    <div>
-      <p>first paragraph</p>
-      <p>second paragraph</p>
-      <p class="p3">third paragraph</p>
-      <p>fourth paragraph</p>
-      <p>fifth paragraph</p>
-      <p>sixth paragraph</p>
+    <h3>outer's width: <span class="outerWidth"></span></h3>
+    <div class="outer">
+      <div class="inner">
+        <p>inner's width: <span class="innerWidth"></span></p>
+      </div>
     </div>
 
-    <div>
-      <p>first paragraph</p>
-    </div>
+    <script>
+      const outer = document.querySelector('.outer');
+      const inner = document.querySelector('.inner');
+      const outerWidth = document.querySelector('.outerWidth');
+      const innerWidth = document.querySelector('.innerWidth');
 
-    <div>
-      <p>first paragraph</p>
-      <p>second paragraph</p>
-      <a href="#">first link</a>
-      <p>third paragraph</p>
-      <p>fourth paragraph</p>
-      <a href="#">second link</a>
-      <p>fifth paragraph</p>
-    </div>
+      outer.addEventListener('resize', () => {
+        const outerRect = outer.getBoundingClientRect();
+        outerWidth.innerText = outerRect.width;
+      });
+
+      const observer = new ResizeObserver(() => {
+        const outerRect = outer.getBoundingClientRect();
+        outerWidth.innerText = Math.floor(outerRect.width);
+        const innerRect = inner.getBoundingClientRect();
+        innerWidth.innerText = Math.floor(innerRect.width);
+      });
+
+      observer.observe(outer);
+    </script>
   </body>
 </html>
