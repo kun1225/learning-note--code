@@ -35,7 +35,7 @@ console.log(arr2); // [1, 2, 3, 4]
 
 就要使用比較特別的方法來做淺拷貝。
 
-## 淺拷貝如何實現
+## 如何實現淺拷貝?
 在 JS 中，有多種方法可以使用淺拷貝，但我覺得最簡單好用的方法是用展開運算子 `...` 來實現:
 
 ```js
@@ -72,7 +72,7 @@ console.log(user2); // {name: Rose, hobbies: [coding, basketball, piano]}
 ```
 可以發現裡面的興趣 hobbies，都被修改到了，要怎麼解決這個問題？就要使用深拷貝。
 
-## 深拷貝如何實現？
+## 如何實現深拷貝?
 常見有兩種方法可以實現:
 1. 將物件轉換成 JSON 格式，在轉換回來
 2. 利用遞迴，遍歷所有屬性來檢查是否為物件型別
@@ -90,8 +90,10 @@ let user2 = JSON.parse(JSON.stringify(user1));
 user2.name = 'Rose',
 user2.hobbies.push('piano')
 
-console.log(user1); // {name: Jack, hobbies: [coding, basketball]}
-console.log(user2); // {name: Rose, hobbies: [coding, basketball, piano]}
+console.log(user1); 
+// {name: Jack, hobbies: [coding, basketball]}
+console.log(user2); 
+// {name: Rose, hobbies: [coding, basketball, piano]}
 ```
 
 可以這樣使用是因為，`JSON.stringify()` 會將所有的屬性都會被深拷貝到新的物件中，並轉換成 JSON 格式。
@@ -166,8 +168,10 @@ user2.sayHi = function sayHi() {
 user1.sayHi() // Hi, Jack
 user2.sayHi() // Hello, Rose
  
-console.log(user1); // {name: Jack, hobbies: [coding, basketball], sayHi...}
-console.log(user2); // {name: Rose, hobbies: [coding, basketball, piano], sayHi...}
+console.log(user1); 
+// {name: Jack, hobbies: [coding, basketball], sayHi...}
+console.log(user2); 
+// {name: Rose, hobbies: [coding, basketball, piano], sayHi...}
 ```
 
 可以發現成功深拷貝了！

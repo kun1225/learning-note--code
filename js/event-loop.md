@@ -6,19 +6,10 @@
 
 但在了解 event loop 之前，我們要先知道一些 JS 的觀念。
 
-
-## JS 主線程
-JS 主線程就像是一個工廠的流水線，它會將所有需要處理的任務照順序執行。
-
-但是有些**特別**的任務需要花費較長時間來完成，例如向服務器請求數據，JS 主線程就會將這個任務交給瀏覽器處理，同時繼續執行流水線中的其他任務。也就是**確保主流水線是通順的**，將麻煩的任務丟給其它人做處理。
-
-**當該複雜任務完成時，裡面的回調函數會先被放到旁邊 (工作佇列 callback queue)**，等待 JS 執行完主線程的任務後，才會被放回主線程中執行回調函數，**而判斷 JS 是否執行完主線程的東西就是 event loop。**
-
-
-### JS 是單線程 single threaded
+## JS 是單線程 single threaded
 JS 是單線程(single threade runtime)的程式語言，也就是他一次只能一件事情，無法同時處理多個事情。
 
-### 阻塞 blocking
+## 阻塞 blocking
 由於 JS 是單線程的關係，若有一段程式碼需要很長的處理時間，例如
 
 ```javascript
@@ -27,14 +18,14 @@ console.log(1);
 for (let i = 0; i < 1000000000; i++) {
   total += i;
 }
-console.log(2)
+console.log(2);
 ```
 會發現 `console.log(2)`，需要等待一段時間才會執行，這被稱為`阻塞 blocking`。
 
 阻塞時，瀏覽器沒辦法處理其他事情，這會造成網頁的 lag。
 
 
-### 執行堆疊 call stack
+## 執行堆疊 call stack
 在 JS 中的有一個容器負責記錄主線程中要執行的程式碼，也就是執行堆疊(call stack)，假設現在有段程式碼:
 
 ```js
@@ -109,8 +100,17 @@ console.log('2');
 
 ![imgae](./imgs/js-event-loop-explained.png)
 
-## 觀察 event loop 的實用工具網站
+## JS 和 event loop
+把上面的觀念綜合在一起，就可以發現 JS 就像是一個工廠的流水線，它會將所有需要處理的任務照順序執行。
 
+但是有些**特別**的任務，例如向服務器請求數據，JS 主線程就會將這個任務交給瀏覽器處理，同時繼續執行流水線中的其他任務。也就是**確保主流水線是通順的**，將麻煩的任務丟給其它人做處理。
+
+**當該任務完成時，裡面的回調函數會先被放到旁邊 (工作佇列 callback queue)**，等待 JS 執行完主線程的任務後，才會被放回主線程中執行回調函數，**而判斷 JS 是否執行完主線程的東西就是 event loop。**
+
+![event-loop](./images/event-loop.jpg)
+
+
+## 觀察 event loop 的實用工具網站
 
 可以利用<a href="http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D" target="_blank" rel="noopener">這個網站 loupe</a> 實際看到 js event loop 究竟在搞什麼鬼。
 

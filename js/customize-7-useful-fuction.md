@@ -15,7 +15,7 @@ console.log('Hello World');
 
 
 ## 2. randomInt()
-Math.random() 可以隨機產生 0 ~ 1 的數字，如果我們想要獲得 0 ~ 10 的數字就必須要 Math.random() * 10 來使用，所以我們可以把 Math.random() 封裝起來讓他更易使用
+Math.random() 可以隨機產生 0 ~ 1 的數字（包含 0，不包含 1），如果我們想要獲得 0 ~ 10 的數字就必須要 Math.random() * 10 來使用，所以我們可以把 Math.random() 封裝起來讓他更易使用
 
 ```jsx
 const randomInt = (min, max) => {
@@ -24,6 +24,7 @@ const randomInt = (min, max) => {
 
 randomInt (13, 30) // 13 ~ 30
 ```
+`max - min + 1` 要 +1 是因為 Math.random() 返回的數字不包含 1，假設我們希望他返回的 0 ~ 3，若不 +1，則只會返回 0 ~ 2.xxx，這樣最後使用 Math.floor() 就無法獲得 3 了。
 
 若希望傳入浮點數和 n 位數，並隨機回傳介於兩者之間的 n 位浮點數，可以這樣來更改:
 
@@ -38,7 +39,7 @@ const randomFloat = (min, max, n) => {
 console.log(randomFloat(1.2, 4.5, 2));
  // 可能的結果是 2.36、3.81、1.93 等等
 ```
-
+`Math.pow()` 是次方的意思。
 
 ## 3. setTimes()
 如果我們想要每隔一段時間執行指定的函數，可以使用 setInterval()，但如果我們希望執行指定的次數，JS 就沒有提共相對的 API，不過我們仍然可以這樣封裝

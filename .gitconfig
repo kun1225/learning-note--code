@@ -1,2 +1,5 @@
 [commit]
 template = ~/.gitmessage
+
+node_modules/
+package-lock.json
