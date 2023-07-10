@@ -8,4 +8,4 @@ console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
 
 const img = document.createElement('img');
 img.src = imgSrc
-document.querySelector('body').appendChild(img);
+document.querySelector('body').appendChild(img); 

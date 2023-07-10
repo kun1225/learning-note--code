@@ -49,6 +49,7 @@ const path = require('path');
 module.exports = {
 entry: './index.js',
   output: {
+		path: path.resolve(__dirname, 'public'),
     filename: 'main.bundle.js',
   },
   mode: 'development', // 👈 指定模式
@@ -72,7 +73,7 @@ npx webpack --watch
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="./dist/main.bundle.js"></script> <!-- 👈 手動更改 -->
+  <script src="./public/main.bundle.js"></script> <!-- 👈 手動更改 -->
 </head>
 <body>
   <h1>Hello from HTML</h1>
@@ -103,6 +104,7 @@ module.exports = {
   mode: 'development',  
   entry: './index.js',  
   output: {  
+		path: path.resolve(__dirname, 'public'),
     filename: 'main.js',  
     publicPath: path.resolve(__dirname, './dist')
   },
@@ -140,7 +142,7 @@ module.exports = {
   entry: './index.js',  
   output: {  
     filename: 'main.bundle.js',  
-    publicPath: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, 'public'),
 		clean: true // 👈 將舊的打包檔案自動刪除
   },
   plugins: [
@@ -172,6 +174,7 @@ module.exports = {
   mode: 'development',  
   entry: './index.js',  
   output: {  
+		path: path.resolve(__dirname, 'public'),
     filename: 'main.[contenthash].js',  // 👈 調整輸出的檔案名稱
     clean: true,
   },
@@ -182,7 +185,7 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, '/'), // 👈 設定路徑
+      directory: path.join(__dirname, 'public'), // 👈 設定路徑
     },
   }
 };
@@ -220,6 +223,7 @@ module.exports = {
   mode: 'development',  
   entry: './index.js',  
   output: {  
+		path: path.resolve(__dirname, 'public'),
     filename: 'main.[contenthash].js',  
     clean: true,
   },
@@ -230,13 +234,13 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, '/'),
+      directory: path.join(__dirname, 'public'),
     },
   },
   module: {
     rules: [
       {
-        test: /\.(png\jpg)$/,         // 👈 利用正則偵測文件
+        test: /\.(png\jpg)$/,   // 👈 利用正則偵測文件
         type: 'asset/resource'  // 👈 指定資源類型
       }
     ]
@@ -289,6 +293,7 @@ module.exports = {
   mode: 'development',  
   entry: './index.js',  
   output: {  
+		path: path.resolve(__dirname, 'public'),
     filename: 'main.[contenthash].js',  
     clean: true,
   },
@@ -299,7 +304,7 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, '/'),
+      directory: path.join(__dirname, 'public'),
     },
   },
   module: {
@@ -370,6 +375,7 @@ module.exports = {
   mode: 'development',  
   entry: './index.js',  
   output: {  
+		path: path.resolve(__dirname, 'public'),
     filename: 'main.[contenthash].js',  
     clean: true,
   },
@@ -380,7 +386,7 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, '/'),
+      directory: path.join(__dirname, 'public'),
     },
   },
   module: {

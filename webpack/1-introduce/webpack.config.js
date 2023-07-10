@@ -6,6 +6,7 @@ module.exports = {
   mode: 'development',  
   entry: './index.js',  
   output: {  
+    path: path.resolve(__dirname, 'public'), // 👈 指定絕對路徑
     filename: 'main.[contenthash].js',  
     clean: true,
   },
@@ -16,7 +17,7 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, '/'),
+      directory: path.join(__dirname, 'public'),
     },
   },
   module: {

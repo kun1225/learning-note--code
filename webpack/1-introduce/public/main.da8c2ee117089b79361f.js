@@ -16,7 +16,7 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _assets_webpack_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/webpack.jpg */ \"./assets/webpack.jpg\");\n/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.scss */ \"./index.scss\");\n// index.js  \nconst moment = __webpack_require__(/*! moment */ \"./node_modules/moment/moment.js\");\n\n\n\nconsole.log(\"Hello from JavaScript!!\");  \nconsole.log(moment().format('MMMM Do YYYY, h:mm:ss a'));\n\nconst img = document.createElement('img');\nimg.src = _assets_webpack_jpg__WEBPACK_IMPORTED_MODULE_0__\ndocument.querySelector('body').appendChild(img);\n\n//# sourceURL=webpack://1-introduce/./index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _assets_webpack_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/webpack.jpg */ \"./assets/webpack.jpg\");\n/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.scss */ \"./index.scss\");\n// index.js  \nconst moment = __webpack_require__(/*! moment */ \"./node_modules/moment/moment.js\");\n\n\n\nconsole.log(\"Hello from JavaScript!!\");  \nconsole.log(moment().format('MMMM Do YYYY, h:mm:ss a'));\n\nconst img = document.createElement('img');\nimg.src = _assets_webpack_jpg__WEBPACK_IMPORTED_MODULE_0__\ndocument.querySelector('body').appendChild(img); \n\n//# sourceURL=webpack://1-introduce/./index.js?");
 
 /***/ }),
 
