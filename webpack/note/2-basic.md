@@ -1,4 +1,12 @@
-在上篇文章中我們了解到了 webpack 的由來，那今天來更深入看看 webpack 使用方法吧！
+在上篇文章中我們了解到了 webpack 的由來，那今天來更深入看看 webpack 基本觀念和使用方法吧！
+
+這篇文章分別會介紹
+1. 入口
+2. 出口
+3. 模式
+4. 插件
+5. 資源模組
+6. 加載器
 
 ## `webpack.config.js` 設定檔
 
@@ -7,12 +15,11 @@
 ```jsx
 npx webpack ./index.js --mode=development
 ```
-
-我們可以新增 `webpack.config.js` 設定檔，來調整一些基本設定，讓我們不用每次都打這麼長的指令，比如我們可以設定入口來指定我們要打包的檔案
+除了我們手動打上名稱和模式，我們還可以新增 `webpack.config.js` 設定檔，來調整一些基本設定，讓我們不用每次都打這麼長的指令，比如我們可以設定入口來指定我們要打包的檔案
 
 ## 入口 entry
 
-入口是告訴 webpack 我們要打包模組的起點，webpack 會自動根據這個模組的引用，一起打包其它檔案
+首先要設定的是入口，入口會告訴 webpack 我們要打包模組的起點，webpack 會自動根據這個模組的引用，一起打包其它檔案
 
 ```jsx
 // ./webpack.config.js
@@ -26,6 +33,7 @@ module.exports = {
 除了入口，webpack 也可以設定出口來指定打包完的檔案，默認是放在 `./dist` 文件夾裡，除此之外，我們也可以指定檔案的名稱
 
 ```jsx
+// ./webpack.config.js
 const path = require('path');
 
 module.exports = {
@@ -44,7 +52,6 @@ module.exports = {
 我們也可以提供模式，來告訴 webpack 當前的環境
 
 ```jsx
-
 const path = require('path');
 module.exports = {
 entry: './index.js',
@@ -58,11 +65,11 @@ entry: './index.js',
 
 此時我們已經調整好了入口、出口、模式，如果我們修改了 index.js 檔需要重新打包時，只要在終端機輸入
 
-```jsx
+```bash
 npx webpack --watch
 ```
 
-就不用打上其它資訊了，而輸入增加 —watch，webpack 就會在更改檔案的時候，自動執行打包。
+就不用打上其它資訊了，而輸入增加 --watch，webpack 就會在更改檔案的時候，自動執行打包。
 
 不過我們遇到了另一個問題，也就是將打包完的檔案名稱改掉後，我們要回到 `index.html` 檔手動更改引入的打包 JS 檔案
 
@@ -71,9 +78,9 @@ npx webpack --watch
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="./public/main.bundle.js"></script> <!-- 👈 手動更改 -->
+  <script src="./public/main.bundle.js"></script> 
+  <!-- 👆 手動更改 -->
 </head>
 <body>
   <h1>Hello from HTML</h1>
@@ -83,13 +90,13 @@ npx webpack --watch
 
 這個問題我們可以透過插件來解決。
 
-## 插件 plugin
+## 插件 plugins
 
-webpack 提供各種插件來幫助我們達到各種功能，例如能夠解決前面手動更改檔案名稱的 `html-webpack-plugin`
+webpack 提供各種插件來幫助我們達到各種功能，例如能夠解決前面手動更改檔案名稱的 `html-webpack-plugin`，接下來我們就來試著使用一些插件練習。
 
 我們先安裝 `html-webpack-plugin` 插件，打開終端機
 
-```html
+```bash
 npm install html-webpack-plugin -D
 ```
 
@@ -106,7 +113,6 @@ module.exports = {
   output: {  
 		path: path.resolve(__dirname, 'public'),
     filename: 'main.js',  
-    publicPath: path.resolve(__dirname, './dist')
   },
   plugins: [ // 👈 記得加 s
     new HtmlWebpackPlugin()
@@ -114,7 +120,7 @@ module.exports = {
 };
 ```
 
-此時可以發現 dist 裡面多了一個 `index.html`  ，而且自動幫我們新增了一個 script，引入打包完的 JS 檔案
+此時可以發現 public 裡面多了一個 `index.html`，而且自動幫我們新增了一個 script，引入打包完的 JS 檔案
 
 ```html
 <!DOCTYPE html>
@@ -123,14 +129,14 @@ module.exports = {
     <meta charset="utf-8">
     <title>Webpack App</title>
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
-		<script defer src="E:\webpack\dist/main.bundle.js"></script>
+		<script defer src="main.bundle.js"></script>
 		<!-- 👆 插件會自動幫我們引入 -->
 </head>
  <body>
  </body>
 ```
 
-但我們可以發現網站的標題並不是我們原本 `index.html` 所設定的，這只要在插件裡面調整就好
+但我們可以發現網站的標題並不是我們原本 `index.html` 所設定的，這只要在插件裡面調整模板就好
 
 ```jsx
 // webpack.config.js  
@@ -145,7 +151,7 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
 		clean: true // 👈 將舊的打包檔案自動刪除
   },
-  plugins: [
+  plugins: [    // 👈 記得加 s
     new HtmlWebpackPlugin({
       template: './index.html' // 👈 設定模板
     })
@@ -205,7 +211,7 @@ npx webpack server
 
 就可以自動打包檔案，且當我們更改文件時，瀏覽器也會自動刷新了
 
-## 資源模組 ****Asset Modules****
+## 資源模組 Asset Modules
 
 到現在我們都只有打包 JS 檔案，不過 webpack 也可以引入其他資源，例如字體檔案、圖片檔案等等，分為四種
 
@@ -216,27 +222,10 @@ npx webpack server
 
 ```jsx
 // webpack.config.js  
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 module.exports = {  
-  mode: 'development',  
-  entry: './index.js',  
-  output: {  
-		path: path.resolve(__dirname, 'public'),
-    filename: 'main.[contenthash].js',  
-    clean: true,
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    })
-  ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-  },
+
+  // ...
+
   module: {
     rules: [
       {
@@ -259,11 +248,12 @@ img.src = imgSrc
 document.querySelector('body').appendChild(img);
 ```
 
-也可以發現打包完的 dist 資料夾裡面多了一個圖片檔案
+也可以發現打包完的 public 資料夾裡面多了一個圖片檔案
 
 ## loader
+webpack 真正厲害的地方是，除了資源模組，它也可以透過 loader 引入其他資源，例如 CSS、SASS 等。
 
-webpack 除了資源模組，也可以透過 loader 引入其他資源，例如 CSS、SASS 等。
+可以看下面這張圖來知道 webpack 扮演的角色，由入口開始，利用 loader 引入各種資源，經過 webpack 和插件之後，會打包出一個 JS 檔案
 
 ![webpack3.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/88a92342-4add-47a3-8be6-5618244295e6/webpack3.jpg)
 
@@ -279,7 +269,7 @@ npm install css-loader -D
 
 不過這個插件 loader 只能幫我們引入 css 檔，並不能幫我們增添樣式，所以我們還需要在安裝一個 `style-loader`
 
-```jsx
+```bash
 npm install style-loader -D
 ```
 
@@ -290,23 +280,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {  
-  mode: 'development',  
-  entry: './index.js',  
-  output: {  
-		path: path.resolve(__dirname, 'public'),
-    filename: 'main.[contenthash].js',  
-    clean: true,
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './index.html'
-    })
-  ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-  },
+
+  // ...
+
   module: {
     rules: [
       {
@@ -314,8 +290,8 @@ module.exports = {
         type: 'asset/resource'
       },
       {
-        test: /\.css$/,                        // 👈 利用正則判斷 css 檔案
-        use: ['style-loader', 'css-loader']    // 👈 使用陣列說明要使用的 loader
+        test: /\.css$/,                     // 👈 利用正則判斷 css 檔案
+        use: ['style-loader', 'css-loader'] // 👈 使用陣列說明要使用的 loader
       }
     ]
   }
