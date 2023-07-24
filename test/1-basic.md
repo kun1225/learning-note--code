@@ -19,7 +19,7 @@
 npm init -y
 npm install jest -D
 ```
-然後新增一個 math.js 檔案，寫上簡單的加法和減法函數
+然後新增一個 math.js 檔案，寫上簡單的加法和減法函數，然後 export 函數。
 
 ```js
 // math.js
@@ -34,7 +34,7 @@ function minus(a, b) {
 module.exports = { sum, minus };
 ```
 
-並寫一個測試的檔案，命名要注意喔，要命名成 `math.test.js`
+接著我們新增負責寫測試的檔案，命名要注意喔，要命名成 `math.test.js`
 
 ```js
 // math.test.js
@@ -61,8 +61,9 @@ test('測試的描述', () => {
 // package.json
 {
   "scripts": {
-    "test": "jest"  // 👈
+    "test": "jest"  👈
   },
+  // ...
 }
 ```
 
@@ -75,8 +76,11 @@ npm test
 
 ![test1](./assets/images/test1.png)
 
-## given, when, then 
-基本上每個測試都可以分成 given(前提), when(行為), then(結果) 的結構，以上面 `math.test.js` 的例子來說，我們可以改寫一下就可以看出這樣的結構
+這樣當我們修改 math.js 的程式碼後，就能夠及時發現錯誤，增加程式碼的穩健。
+
+## given, when, then
+
+我們在稍微深入一點，其實每個測試都可以分成 given(前提), when(行為), then(結果) 的結構，以上面 `math.test.js` 的例子來說，我們可以改寫一下就可以看出這樣的結構
 
 ```js
 // math.test.js
@@ -97,9 +101,9 @@ test('test sum function', () => {
 //...
 ```
 
-以後寫測試的時候都可以遵循這樣個結構來測試喔。
+以後寫測試的時候就可以遵循這樣的結構來寫，可以讓新手更有方向寫測試。
 
-因為這個函數相對簡單，感受不太到測試的好處，接下來我們更進一步來寫個購物車的測試吧！
+不過因為這個函數相對簡單，感受不太到測試的好處，接下來我們更進一步來寫個購物車的測試吧！
 
 ## 寫一個購物車的測試
 我們先新增 shoppingCart.js 檔案，寫一個新增、移除、清空、計算總金額的函數
@@ -108,22 +112,19 @@ class ShoppingCart {
   constructor() {
     this.items = [];
   }
-
   // 新增商品
   addItem(item) {
     this.items.push(item);
   }
-
   // 移除商品
   removeItem(itemIndex) {
     this.items.splice(itemIndex, 1);
   }
-
   // 計算總金額
   getTotalPrice() {
-    return this.items.reduce((total, item) => total + item.price, 0);
+    return this.items.reduce(
+      (total, item) => total + item.price, 0);
   }
-
   // 清空購物車
   clearCart() {
     this.items = [];
@@ -140,7 +141,6 @@ const ShoppingCart = require('./shoppingCart');
 
 describe('ShoppingCart', () => {
   let cart;
-
   beforeEach(() => {
     // given
     cart = new ShoppingCart();
@@ -174,24 +174,15 @@ describe('ShoppingCart', () => {
 接著我們繼續寫計算金額和清空購物車的測試
 
 ```js
-const ShoppingCart = require('./shoppingCart');
-
+// shoppingCart.test.js
 describe('ShoppingCart', () => {
-  let cart;
-
-  beforeEach(() => {
-    // given
-    cart = new ShoppingCart();
-  });
 
   // ...
 
-  
   test('calculate the total price', () => {
     cart.addItem({ name: 'Product 1', price: 10 });
     cart.addItem({ name: 'Product 2', price: 20 });
     cart.addItem({ name: 'Product 3', price: 30 });
-
     const totalPrice = cart.getTotalPrice();
 
     expect(totalPrice).toBe(60);
@@ -215,7 +206,7 @@ npm test
 
 ![test2](./assets/images/test2.png)
 
-這樣當我們需要修改購物車的功能時，能確保我們及時發現哪裡有錯誤，也能讓其他人更容易理解程式碼在做些什麼。
+這樣當我們需要修改像購物車一樣複雜的功能時，就能確保我們及時發現哪裡有錯誤，不然程式碼一多，除錯是非常痛苦的事情，而且寫測試除了能讓我們很快發現是哪個函數出問題以外，也能讓其他人更容易理解我們程式碼在做些什麼，所以寫測試是很重要的事情。
 
 ## 小結
 今天很簡單的介紹了單元測試和 Jest 的使用方式，最後總結寫測試的五大好處
@@ -225,3 +216,5 @@ npm test
 3. 減少重構時錯誤： 在開發新功能或進行程式碼修改時，單元測試可以快速確認這些更改是否影響到原本的功能，減少找錯誤的時間。
 4. 增進團隊協作： 寫單元測試也能讓團隊成員更容易理解程式碼的功能和預期行為。幫助其他成員快速了解程式碼。
 5. 提高程式設計能力： 因為寫測試需要將程式碼拆分成可測試的獨立單元。這其實需要我們思考更良好的程式設計，將功能模組化、減少程式碼的耦合性和複雜性。
+
+最後分享我在網路上看到的一句話：寫不好單元測試是能力的問題，不寫單元測試則是態度的問題。你覺得呢？
