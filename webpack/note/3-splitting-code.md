@@ -11,7 +11,7 @@
 
 因為接下來的檔案會越來越多，我們新建一個 `src` 資料夾來統一管理，把所有 js、css、img 都放到裡面
 
-![webpack-3-code-spilliting.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/777b953e-c807-443a-8099-29e141f26599/webpack-3-code-spilliting.png)
+![webpack-3-code-spilliting.png](./../assets/images/webpack-3-splitting-code.png)
 
 並修改入口名稱
 
@@ -96,11 +96,11 @@ module.exports = {
 
 這是我們只在 another.module.js 引入 moment 的大小，可以發現 another 大得多
 
-![webpack-3-code-spilliting2.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/41d76c82-59d3-4117-8a6b-45a8cada674d/webpack-3-code-spilliting2.png)
+![webpack-3-code-spilliting2.png](./../assets/images/webpack-3-splitting-code2.png)
 
 如果我們也在 index.js 中引入 moment，則兩個檔案都會變大
 
-![webpack-3-code-spilliting3.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01b37008-14ed-45ba-9de9-0381a1ea172e/webpack-3-code-spilliting3.png)
+![webpack-3-code-spilliting3.png](./../assets/images/webpack-3-splitting-code3.png)
 
 我們可以設置依賴來解決重複打包的問題
 
@@ -135,7 +135,9 @@ module.exports = {
   <title>Document</title>
   <script defer src="index.269012cdaf19f17dc472.js"></script>
   <script defer src="another.b41ced3c4bbf59a8d8a1.js"></script>
-  <script defer src="shared.dfb649af00d4dcff9e19.js"></script></head>
+  <script defer src="shared.dfb649af00d4dcff9e19.js"></script>
+   <!-- 👆 引入三個JS檔 --> 
+</head>
 <body>
   <h1>Hello from HTML!!!!</h1>
 </body>
@@ -171,6 +173,10 @@ module.exports = {
 ```
 
 由於 split-chunk-plugin 是內置的 plugin 所以我們不需要安裝，直接這樣寫後，它就會自動拆分共同的程式碼了。
+
+![splitting code](../assets/images/webpack-3-splitting-code4.png)
+
+可以發現多了一個 vendor... 的打包檔案，就是他自動幫我們打包 moment 庫了。
 
 ## 3. 動態導入
 
@@ -231,7 +237,7 @@ import './async-module';
 console.log("Hello from index");
 ```
 
-此時執行 `npx webpack` 打包後，會發現儘管我們沒有特別寫配置，webpack 依然幫我們將 moment 打包成單獨檔案。
+此時執行 `npx webpack` 打包後，會發現儘管我們沒有特別寫配置，webpack 依然幫我們將 `async-module.js` 打包成單獨檔案。
 
 動態導入也可以和靜態導入一起使用，只要將 `optimization` 配置取消註釋就好了
 
