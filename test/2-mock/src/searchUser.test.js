@@ -43,6 +43,7 @@ test('should not return more than 3 results', () => {
   const result = searchUser(keyword);
 
   expect(result).toHaveLength(3);
+  expect(result[0]).toEqual('James 1');
 });
 
 
