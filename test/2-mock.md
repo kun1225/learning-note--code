@@ -68,24 +68,24 @@ jest.mock('./services.js', () => ({
 
 而 `jest.fn()` 可以幫助我們創建 mock 函數，進行這些測試。
 
-有了 `mock` 和 `jest.fn()` 後，我們就能用這個模擬的資料來進行測試，比如測試 沒有 `keyword`、以及 `keyword = ‘James’` 時，一樣可以用 give when then 的架構來寫
+有了 `mock` 和 `jest.fn()` 後，我們就能用這個模擬的資料來進行測試，比如測試 沒有 `keyword`、以及 `keyword = ‘James’` 時，一樣可以用 given when then 的架構來寫
 
 ```jsx
-import searchUser from './searchUser';
+// 接續前面的 jest.mock ...
 
 test('should return empty result when not search', () => {
-	// when
-  const keyword = '';
 	// given
+  const keyword = '';
+	// when
   const result = searchUser(keyword);
 	// then
   expect(result).toEqual([]);
 });
 
 test('should return target results when found search', () => {
-	// when
-  const keyword = 'James';
 	// given
+  const keyword = 'James';
+	// when
 	const result = searchUser(keyword);
 	// then
   expect(result).toEqual(['James']);
@@ -94,7 +94,7 @@ test('should return target results when found search', () => {
 
 接著執行 `npm test` 進行測試
 
-## **mockImplementation**
+## mockImplementation
 
 有時候我們在不同測試的時候需要模擬不同資料，就無法在一開頭寫死模擬的情況，這時候就可以使用 **`mockImplementation`** 函數，在每個測試單元內模擬不圖的情況
 
@@ -120,7 +120,8 @@ test('should return empty result when not search', () => {
 test('should return target results when found search', () => {
   const keyword = 'James';
 	// 模擬資料 👇
-  getAllUsersName.mockImplementation(() => ['John', 'James', 'Rose', 'Tom', 'David']);
+  getAllUsersName.mockImplementation(
+    () => ['John', 'James', 'Rose', 'Tom', 'David']);
   const result = searchUser(keyword);
   expect(result).toEqual(['James']);
 });
@@ -149,7 +150,7 @@ test('should not return more than 3 results', () => {
 });
 ```
 
-## **測試 undefined & null & 大小寫**
+## 測試 undefined & null & 大小寫
 
 接著讓我們繼續完善這個測試，如果傳入 undefined & null 時，要返回空陣列
 
@@ -168,7 +169,8 @@ test('should handle null or undefined as input', () => {
 test('should return case sensitive', () => {
   
   const keyword = 'john';
-  getAllUsersName.mockImplementation(() => ['John', 'James', 'Rose']);
+  getAllUsersName.mockImplementation(
+      () => ['John', 'James', 'Rose']);
 
   const result = searchUser(keyword);
 

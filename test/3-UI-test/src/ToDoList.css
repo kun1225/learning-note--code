@@ -1,0 +1,51 @@
+
+
+.todos {
+ display: flex;
+ flex-direction: column;
+ width: 360px;
+}
+
+.todos__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todos__item-text.completed {
+  text-decoration: line-through;
+}
+
+.todos__item-btn {
+  background: transparent;
+  outline: none;
+  border: none;
+  border-radius: .4rem;
+}
+
+.todos__input {
+  margin-top: 32px;
+  padding: 16px;
+  border: 1px solid #aaa;
+  border-radius: .4rem;
+  outline: none;
+  background: transparent;
+  caret-color: #fff;
+  color: #fff;
+}
+
+.todos__btn {
+  padding: 8px;
+  margin-top: 32px;
+  border: 1px solid #aaa;
+  border-radius: .4rem;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  transition: .2s;
+}
+
+.todos__btn:hover {
+  background: #aaa;
+  color: #23232b;
+}
