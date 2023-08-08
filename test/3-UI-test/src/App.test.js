@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+/* eslint-disable testing-library/no-unnecessary-act */
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
@@ -8,8 +9,10 @@ test('should show full name when type', () => {
 
   // when
   render(<App />);
-  userEvent.type(screen.getByPlaceholderText('Type your name'), name);
-
+  act(() => {
+    userEvent.type(screen.getByPlaceholderText('Type your name'), name);
+  })
+  
   // then
   expect(screen.getByText(name)).toBeInTheDocument();
 });

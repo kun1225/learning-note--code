@@ -72,7 +72,7 @@ describe('Todo Component', () => {
     act(() => {
       userEvent.type(screen.getByPlaceholderText('Add Todo'), '{enter}');
       userEvent.click(screen.getByText('ADD'));
-    });
+    }); 
     // then
     expect(screen.queryAllByTestId('todos__item')).toHaveLength(0);
   });
@@ -86,7 +86,6 @@ describe('Todo Component', () => {
       userEvent.type(screen.getByPlaceholderText('Add Todo'), 'Buy milk');
       userEvent.click(screen.getByText('ADD'));
     });
-    // rerender(<TodoList todosData={todosData}></TodoList>);
     // then
     expect(screen.queryAllByTestId('todos__item')).toHaveLength(1);
     expect(screen.getByText('Buy milk')).toBeInTheDocument();

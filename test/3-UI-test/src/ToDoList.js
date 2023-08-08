@@ -26,16 +26,16 @@ export default function ToDoList({todosData}) {
 
   return (
     <div className="todos">
-      {todos.map((todo, i) => (
-        <div className="todos__item" data-testid="todos__item" key={todo.text}>
-          <p className={`${todo.isCompleted ? 'completed' : ''} todos__item-text`} >{todo.text}</p>
+      {todos.map(({text, isCompleted}, i) => (
+        <div className="todos__item" data-testid="todos__item" key={text}>
+          <p className={`${isCompleted ? 'completed' : ''} todos__item-text`} >{text}</p>
           <div>
             <button
               type="button"
               className="todos__item-btn"
               onClick={() => toggleTodo(i)}
             >
-              {todo.isCompleted ? '✅' : '🟩'}
+              {isCompleted ? '✅' : '🟩'}
             </button>
             <button
               type="button"

@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 import ToDoList from './ToDoList';
 
 const todosData = [
@@ -18,18 +19,18 @@ const todosData = [
 
 function App() {
 
-  // const [name, setName] = useState('')
+  const [name, setName] = useState('')
 
   return (
     <div className='App'>
-      {/* <input 
+      <input 
         type="text" 
         value={name} 
         onChange={(e) => setName(e.target.value)}
         placeholder='Type your name'
       />
-      <p>My name is <span>{name}</span></p> */}
-      <ToDoList todosData={todosData}></ToDoList>
+      <p>My name is <span>{name}</span></p>
+      {/* <ToDoList todosData={todosData}></ToDoList> */}
     </div>
   );
 }
