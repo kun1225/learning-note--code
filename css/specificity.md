@@ -1,6 +1,6 @@
 此篇筆記也寫在我的[部落格](https://thisweb.tech/css-specificity/)中
 
-# CSS 選擇器的優先級、權重 specificity
+# 為甚麼你的 CSS 沒有效果？ CSS 選擇器的優先級、權重 specificity
 
 不知道你有沒有發生這種事情，你寫的 CSS 樣式沒有生效，於是就加上個 `!important` 搞定一切，但為什麼有時候寫的 CSS 樣是沒有效果呢，是因為優先級 specificity 的關係，今天我們就來看看 CSS 優先級，以後就不要一直加 `!important` 了。
 
